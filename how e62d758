@@ -1,0 +1,28 @@
+[33mcommit 1cfcd391a9a35e8e3a1e22ab04227d2326de4162[m
+Author: Pranav <pranav@gmail.com>
+Date:   Thu Jun 11 15:17:41 2026 +0530
+
+    AI Integration
+
+[1mdiff --git a/README.md b/README.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..18bc70e[m
+[1m--- /dev/null[m
+[1m+++ b/README.md[m
+[36m@@ -0,0 +1,16 @@[m
+[32m+[m[32m# React + Vite[m
+[32m+[m
+[32m+[m[32mThis template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.[m
+[32m+[m
+[32m+[m[32mCurrently, two official plugins are available:[m
+[32m+[m
+[32m+[m[32m- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh[m
+[32m+[m[32m- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh[m
+[32m+[m
+[32m+[m[32m## React Compiler[m
+[32m+[m
+[32m+[m[32mThe React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).[m
+[32m+[m
+[32m+[m[32m## Expanding the ESLint configuration[m
+[32m+[m
+[32m+[m[32mIf you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.[m
