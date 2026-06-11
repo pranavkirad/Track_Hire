@@ -87,7 +87,7 @@ router.put('/:id', auth, async (req, res) => {
       $set: req.body,
       },
 
-      { returnDocument: 'after' }
+      { new: true }
     );
 
     res.json(updatedJob);

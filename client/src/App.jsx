@@ -279,58 +279,41 @@ function MainApp() {
   // UPDATE JOB
   // ─────────────────────────────────────────────
 
-  const handleUpdateJob =
-    async (updatedData) => {
+const handleUpdateJob = async (updatedData) => {
+  try {
+    setIsSaving(true);
 
-      try {
+    const token = localStorage.getItem('trackhireToken');
 
-        setIsSaving(true);
+    console.log("Updating Job:", updatedData);
 
-        const token =
-          localStorage.getItem(
-            'trackhireToken'
-          );
-
-        const res =
-          await axios.put(
-
-            `http://localhost:5000/api/jobs/${editingJob._id}`,
-
-            updatedData,
-
-            {
-              headers: {
-                Authorization:
-                  `Bearer ${token}`
-              }
-            }
-          );
-
-        setJobs(prevJobs =>
-          prevJobs.map(job =>
-            job._id ===
-            editingJob._id
-              ? res.data
-              : job
-          )
-        );
-
-        setEditingJob(null);
-
-        setIsModalOpen(false);
-
-      } catch (err) {
-
-        console.log(
-          'Update Error:',
-          err
-        );
-
-      } finally {
-
-        setIsSaving(false);
+    const res = await axios.put(
+      `http://localhost:5000/api/jobs/${updatedData._id}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    };
+    );
+
+    setJobs(prevJobs =>
+      prevJobs.map(job =>
+        job._id === updatedData._id
+          ? res.data
+          : job
+      )
+    );
+
+    setEditingJob(null);
+    setIsModalOpen(false);
+
+  } catch (err) {
+    console.log('Update Error:', err);
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   // ─────────────────────────────────────────────
   // DELETE JOB
