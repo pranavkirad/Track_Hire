@@ -22,25 +22,51 @@ export default function StatusProgressModal({ job, onClose, onUpdate }) {
   // Confirmation state
   const [showConfirm, setShowConfirm] = useState(false);
 
-  useEffect(() => {
-    // Reset state when job changes
-    setPendingStatus(job?.status || null);
-    setShowConfirm(false);
-  }, [job]);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+const [selectedDate, setSelectedDate] = useState('');
+
+useEffect(() => {
+  setPendingStatus(job?.status || null);
+  setShowConfirm(false);
+  setShowDatePicker(false);
+  setSelectedDate('');
+}, [job]);
 
   if (!job) return null;
+
+
 
   // Find index of current and pending status in the active workflow
   const currentStepIndex = steps.findIndex(step => step.status === job.status);
   const pendingStepIndex = steps.findIndex(step => step.status === pendingStatus);
 
   // Helper to handle applying a new status (triggers confirmation)
-  const handleApplyStatus = (newStatus) => {
-    if (newStatus !== job.status) {
-      setPendingStatus(newStatus);
-      setShowConfirm(true); // Open inner confirmation
-    }
-  };
+const handleApplyStatus = (newStatus) => {
+
+  if (
+    newStatus === 'Interview' ||
+    newStatus === 'Offer'
+  ) {
+
+    setPendingStatus(newStatus);
+
+    setSelectedDate(
+      new Date().toISOString().split('T')[0]
+    );
+
+    setShowDatePicker(true);
+
+    return;
+  }
+
+  if (newStatus !== job.status) {
+
+    setPendingStatus(newStatus);
+
+    setShowConfirm(true);
+  }
+};
 
   // Main UI
   return (
@@ -177,6 +203,83 @@ export default function StatusProgressModal({ job, onClose, onUpdate }) {
           </button>
         </div>
 
+        {showDatePicker && (
+  <div
+    className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+  >
+    <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
+
+      <h4 className="text-lg font-bold text-gray-900">
+        {pendingStatus === 'Interview'
+          ? 'Schedule Interview'
+          : 'Select Offer Date'}
+      </h4>
+
+      <p className="text-sm text-gray-500 mt-2">
+        {pendingStatus === 'Interview'
+          ? 'Select the interview date'
+          : 'Select the date you received the offer'}
+      </p>
+
+      <input
+        type="date"
+        value={selectedDate}
+        onChange={(e) =>
+          setSelectedDate(e.target.value)
+        }
+
+        min={
+          pendingStatus === 'Interview'
+            ? new Date()
+                .toISOString()
+                .split('T')[0]
+            : job.interviewDate
+              ? new Date(job.interviewDate)
+                  .toISOString()
+                  .split('T')[0]
+              : ''
+        }
+
+        max={
+          pendingStatus === 'Offer'
+            ? new Date()
+                .toISOString()
+                .split('T')[0]
+            : undefined
+        }
+
+        className="w-full mt-4 border border-gray-300 rounded-xl px-4 py-3"
+      />
+
+      <div className="flex justify-end gap-3 mt-6">
+
+        <button
+          onClick={() => {
+            setShowDatePicker(false);
+            setSelectedDate('');
+          }}
+          className="px-4 py-2 bg-gray-100 rounded-lg"
+        >
+          Cancel
+        </button>
+
+        <button
+          disabled={!selectedDate}
+          onClick={() => {
+            setShowDatePicker(false);
+            setShowConfirm(true);
+          }}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-50"
+        >
+          Continue
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+)}
+
         {/* --- INNER CONFIRMATION MODAL --- */}
         {showConfirm && (
           <div 
@@ -201,7 +304,19 @@ export default function StatusProgressModal({ job, onClose, onUpdate }) {
                 <button 
                   onClick={() => {
                     // APPLY CHANGE and CLOSE BOTH MODALS
-                    onUpdate(pendingStatus);
+                    onUpdate({
+  status: pendingStatus,
+
+  interviewDate:
+    pendingStatus === 'Interview'
+      ? selectedDate
+      : job.interviewDate,
+
+  offerDate:
+    pendingStatus === 'Offer'
+      ? selectedDate
+      : job.offerDate
+});
                   }} 
                   className="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-md active:scale-95"
                 >

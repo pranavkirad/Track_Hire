@@ -7,7 +7,7 @@ export default function JobModal({ isOpen, onClose, onSubmit, initialData = null
   const [formData, setFormData] = useState({
     company: '', role: '', location: 'Remote', jobType: 'Full-time', 
     hrName: '', status: 'Applied', dateApplied: new Date().toISOString().split('T')[0], interviewDate: '',
-    resumeName: '', referralUsed: false, referrerName: '', referrerRole: '',
+    resumeName: '',resumeFile: '', referralUsed: false, referrerName: '', referrerRole: '',
     platformType: 'Website', platformName: ''
   });
 
@@ -21,7 +21,7 @@ export default function JobModal({ isOpen, onClose, onSubmit, initialData = null
       setFormData({
         company: '', role: '', location: 'Remote', jobType: 'Full-time', 
         hrName: '', status: 'Applied', dateApplied: new Date().toISOString().split('T')[0], interviewDate: '',
-        resumeName: '', referralUsed: false, referrerName: '', referrerRole: '',
+        resumeName: '',resumeFile: '', referralUsed: false, referrerName: '', referrerRole: '',
         platformType: 'Website', platformName: ''
       });
       setPlatformUsed(false);
@@ -269,16 +269,25 @@ const handleSubmit = (e) => {
       className="hidden"
       onChange={(e) => {
 
-        const file = e.target.files[0];
+  const file = e.target.files[0];
 
-        if (file) {
+  if (!file) return;
 
-          setFormData({
-            ...formData,
-            resumeName: file.name
-          });
-        }
-      }}
+  const reader = new FileReader();
+
+  reader.onload = () => {
+
+    setFormData(prev => ({
+      ...prev,
+      resumeName: file.name,
+      resumeFile: reader.result
+    }));
+
+  };
+
+  reader.readAsDataURL(file);
+
+}}
     />
 
     <label

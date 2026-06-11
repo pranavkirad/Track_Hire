@@ -1,7 +1,7 @@
 // src/Pages/Application.jsx
 import React, { useState, useEffect, useRef } from 'react';
 // IMPORT EDIT2 ICON
-import { Search, Calendar, MoreVertical, Trash2, Edit, Pin, Filter, Eye, Edit2, Info } from 'lucide-react';
+import { Search, Calendar, MoreVertical, Trash2, Edit, Pin, Filter, Eye, Download, Edit2, Info } from 'lucide-react';
 import StatusBadge from '../Components/StatusBadge';
 import PreviewModal from '../Components/PreviewModal';
 import Loader from '../Components/Loader';
@@ -197,7 +197,17 @@ export default function Applications({ jobs, onEdit, onDelete, onTogglePin, dele
                     <td className="px-6 py-4 text-center">
                       <div className="flex items-center justify-center gap-2 relative">
                         {/* Preview, Actions Dropdown, Trash (no changes here) */}
-                        <div className="relative group/preview flex items-center justify-center"> <button onClick={(e) => handlePreviewClick(e, job)} disabled={loadingPreviewId === job._id} className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 hover:shadow-sm rounded-md transition-all focus:outline-none disabled:cursor-wait"> {loadingPreviewId === job._id ? <Loader color="bg-blue-600" size="h-1.5 w-1.5" /> : <Eye size={16} />} </button> {loadingPreviewId !== job._id && ( <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-200 z-50 text-center shadow-xl font-medium">Peek at full application details ✨<div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div></div> )} </div> <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === job._id ? null : job._id); setIsFilterMenuOpen(false); }} className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-indigo-600 hover:bg-white hover:shadow-sm rounded-md transition-all focus:outline-none"> <MoreVertical size={16} /> </button> {openDropdownId === job._id && ( <div className="absolute right-12 top-0 mt-1 w-48 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100 z-50 overflow-hidden text-left" onClick={(e) => e.stopPropagation()}> <button onClick={() => { onEdit(job); setOpenDropdownId(null); }} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 flex items-center gap-2 transition-colors font-medium"><Edit size={16} /> Edit Application</button> <button onClick={() => { onTogglePin(job._id); setOpenDropdownId(null); }} disabled={pinningId === job._id} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 flex items-center gap-2 transition-colors border-t border-gray-50 font-medium disabled:opacity-50 disabled:cursor-wait"> {pinningId === job._id ? <Loader color="bg-indigo-600" size="h-1.5 w-1.5" /> : <Pin size={16} className={job.isPinned ? "fill-indigo-600 text-indigo-600" : ""} />} {pinningId === job._id ? "Updating..." : (job.isPinned ? "Unpin Application" : "Pin Application")} </button> <button onClick={() => { console.log(`Share feature coming soon`); setOpenDropdownId(null); }} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 flex items-center gap-2 transition-colors border-t border-gray-50 font-medium"><Pin size={16} /> Share Application</button> </div> )} <button onClick={() => onDelete(job._id)} disabled={deletingId === job._id} className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-white hover:shadow-sm rounded-md transition-all disabled:cursor-wait"> {deletingId === job._id ? <Loader color="bg-red-600" size="h-1.5 w-1.5" /> : <Trash2 size={16} />} </button>
+                        <div className="relative group/preview flex items-center justify-center"> 
+                        <button onClick={(e) => handlePreviewClick(e, job)} 
+                        disabled={loadingPreviewId === job._id} 
+                        className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 hover:shadow-sm rounded-md transition-all focus:outline-none disabled:cursor-wait"> 
+                        {loadingPreviewId === job._id 
+                        ? <Loader color="bg-blue-600" size="h-1.5 w-1.5" /> 
+                        : <Eye size={16} />} 
+                        </button> 
+                        {loadingPreviewId !== job._id && ( 
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-200 z-50 text-center shadow-xl font-medium">Peek at full application details ✨<div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div></div> )} </div> <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === job._id ? null : job._id); setIsFilterMenuOpen(false); }} className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-indigo-600 hover:bg-white hover:shadow-sm rounded-md transition-all focus:outline-none"> <MoreVertical size={16} /> </button> {openDropdownId === job._id && ( 
+                          <div className="absolute right-12 top-0 mt-1 w-48 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100 z-50 overflow-hidden text-left" onClick={(e) => e.stopPropagation()}> <button onClick={() => { onEdit(job); setOpenDropdownId(null); }} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 flex items-center gap-2 transition-colors font-medium"><Edit size={16} /> Edit Application</button> <button onClick={() => { onTogglePin(job._id); setOpenDropdownId(null); }} disabled={pinningId === job._id} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 flex items-center gap-2 transition-colors border-t border-gray-50 font-medium disabled:opacity-50 disabled:cursor-wait"> {pinningId === job._id ? <Loader color="bg-indigo-600" size="h-1.5 w-1.5" /> : <Pin size={16} className={job.isPinned ? "fill-indigo-600 text-indigo-600" : ""} />} {pinningId === job._id ? "Updating..." : (job.isPinned ? "Unpin Application" : "Pin Application")} </button> </div> )} <button onClick={() => onDelete(job._id)} disabled={deletingId === job._id} className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-white hover:shadow-sm rounded-md transition-all disabled:cursor-wait"> {deletingId === job._id ? <Loader color="bg-red-600" size="h-1.5 w-1.5" /> : <Trash2 size={16} />} </button>
                       </div>
                     </td>
                   </tr>
@@ -211,14 +221,19 @@ export default function Applications({ jobs, onEdit, onDelete, onTogglePin, dele
       <PreviewModal job={previewJob} onClose={() => setPreviewJob(null)} />
 
       {/* NEW STATUS PROGRESS MODAL */}
-      <StatusProgressModal 
-        job={jobBeingEditedForStatus} 
-        onClose={() => setEditingStatusJobId(null)} 
-        onUpdate={(newStatus) => {
-          onUpdate({ ...jobBeingEditedForStatus, status: newStatus });
-          setEditingStatusJobId(null);
-        }}
-      />
+      <StatusProgressModal
+  job={jobBeingEditedForStatus}
+  onClose={() => setEditingStatusJobId(null)}
+  onUpdate={(updatedFields) => {
+
+    onUpdate({
+      ...jobBeingEditedForStatus,
+      ...updatedFields
+    });
+
+    setEditingStatusJobId(null);
+  }}
+/>
     </div>
   );
 }

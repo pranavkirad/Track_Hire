@@ -44,6 +44,11 @@ const JobSchema = new mongoose.Schema({
   default: ''
 },
 
+offerDate: {
+  type: String,
+  default: ''
+},
+
   resumeName: {
     type: String,
     default: ''
@@ -58,6 +63,16 @@ const JobSchema = new mongoose.Schema({
     type: String,
     default: 'Remote'
   },
+
+  resumeFile: {
+  type: String,
+  default: ''
+},
+
+resumeName: {
+  type: String,
+  default: ''
+},
 
   jobType: {
     type: String,

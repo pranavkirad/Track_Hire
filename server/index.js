@@ -1,11 +1,8 @@
-
 const express = require('express');
-
 const mongoose = require('mongoose');
-
 const cors = require('cors');
-
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -13,8 +10,13 @@ const app = express();
 
 // MIDDLEWARE
 app.use(cors());
-
 app.use(express.json());
+
+// SERVE UPLOADED FILES
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, 'uploads'))
+);
 
 // ROUTES
 app.use(
@@ -44,14 +46,10 @@ app.use(
 
 // TEST ROUTE
 app.get('/', (req, res) => {
-
-  res.send(
-    'TrackHire Backend Running'
-  );
-
+  res.send('TrackHire Backend Running');
 });
 
-// CONNECT REAL MONGODB ATLAS
+// CONNECT MONGODB ATLAS
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

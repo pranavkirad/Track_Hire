@@ -85,12 +85,29 @@ export default function PreviewModal({ job, onClose }) {
                       <p className="text-gray-800 font-medium mt-0.5">{job.hrName || 'Not specified'}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase">Resume Used</p>
-                      <div className="flex items-center gap-2 mt-1.5 text-indigo-700 font-medium bg-indigo-50 w-fit px-3 py-1.5 rounded-lg border border-indigo-100 shadow-sm">
-                         <FileText size={14} />
-                         {job.resumeName || 'Default Resume'}
-                      </div>
-                    </div>
+  <p className="text-xs font-bold text-gray-400 uppercase">
+    Resume Used
+  </p>
+
+  <div className="flex items-center gap-3 mt-2 flex-wrap">
+
+    <div className="flex items-center gap-2 text-indigo-700 font-medium bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 shadow-sm">
+      <FileText size={14} />
+      {job.resumeName || 'Default Resume'}
+    </div>
+
+    {job.resumeFile && (
+      <a
+        href={job.resumeFile}
+        download={job.resumeName}
+        className="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1.5 rounded-lg transition"
+      >
+        Download Resume
+      </a>
+    )}
+
+  </div>
+</div>
                  </div>
 
                  {/* Referral Info */}
